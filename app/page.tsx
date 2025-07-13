@@ -1,103 +1,145 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import StickyHeadTable from "@/components/table";
+import { UserDto } from "@/model/api/user.type";
+import {
+  Button,
+  Card,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Box from "@mui/material/Box";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
+
+function Home() {
+  const router = useRouter();
+  const [search, setSearch] = useState<string>("");
+  const [searchRes, setSearchRes] = useState<UserDto[]>();
+
+  useEffect(() => {
+    if (search === "") {
+      fetch(`http://localhost:8080/api/v1/users`)
+        .then((res) => res.json())
+        .then((data) => setSearchRes(data))
+        .catch((err) => console.error("Error fetching user:", err));
+    }
+  }, [search]);
+  function searchUser() {
+    if (!!search) {
+      fetch(`http://localhost:8080/api/v1/users/search?q=${search}`)
+        .then((res) => res.json())
+        .then((data) => setSearchRes(data))
+        .catch((err) => console.error("Error fetching user:", err));
+    }
+  }
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <Box
+      sx={{
+        display: "grid",
+        width: "100%",
+        height: "100vh",
+        backgroundColor: "#F8F8F8",
+        p: 2,
+      }}
+    >
+      <Stack
+        display="flex"
+        justifyContent="flex-end"
+        direction="row"
+        width="100%"
+        height="60px"
+        spacing={1}
+        sx={{ pb: 2 }}
+      >
+        {/* <Box sx={{ flex: 1 }} /> */}
+        <Button
+          variant="contained"
+          onClick={() => router.push("/create")}
+          sx={{ height: "fitContent" }}
+        >
+          Create
+        </Button>
+      </Stack>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "32px",
+        }}
+      >
+        <Stack direction="row" width="100%" spacing={1} sx={{ pb: 2 }}>
+          <TextField
+            sx={{ flex: 1 }}
+            label="Search"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            slotProps={{
+              input: {
+                endAdornment: search && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setSearch("")}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <Button variant="contained" onClick={searchUser}>
+            Search
+          </Button>
+        </Stack>
+        <StickyHeadTable dataTable={searchRes} />
+      </Card>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      {/* {!!searchRes && searchRes.map((item, index) => (<Card key={index} sx={{justifyContent: 'center', alignItems: 'center', padding: '32px' }}>
+        <Stack direction='row'>
+          <Typography>Name: </Typography>
+          <Typography>{`${item.firstName} ${item.lastName}`}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>ID Card: </Typography>
+          <Typography>{item.idCard}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>Date of birth: </Typography>
+          <Typography>{item.dateOfBirth}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>email: </Typography>
+          <Typography>{item.email}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>Phone number: </Typography>
+          <Typography>{item.phoneNumber}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>Position: </Typography>
+          <Typography>{item.position}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>Role: </Typography>
+          <Typography>{item.role}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>Start Date: </Typography>
+          <Typography>{item.startDate}</Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography>End Date: </Typography>
+          <Typography>{item.endDate}</Typography>
+        </Stack>
+    </Card>))} */}
+    </Box>
   );
 }
+
+export default Home;

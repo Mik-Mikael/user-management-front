@@ -1,18 +1,31 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Tech Requirement
 
-First, run the development server:
+- Node 18+++
+- Modern Yarn
+
+## Project Setup
+
+This project use modern yarn, if you don't have mordern yarn, run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn set version berry
 ```
+
+Finally run:
+
+```bash
+yarn install
+```
+
+If library not sync (Cannot find module ... or its corresponding type declarations)
+
+1. Install the [ZipFS](https://marketplace.visualstudio.com/items?itemName=arcanis.vscode-zipfs) VSCode extension
+2. run `yarn dlx @yarnpkg/sdks vscode`
+3. Press ctrl+shift+p in a TypeScript file
+4. Choose "Select TypeScript Version"
+5. Pick "Use Workspace Version"
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

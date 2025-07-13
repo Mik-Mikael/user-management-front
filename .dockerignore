@@ -1,0 +1,4 @@
+.next
+DockerFile
+.dockerignore
+.env
