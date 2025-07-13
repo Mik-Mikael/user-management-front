@@ -1,7 +1,7 @@
 "use client";
 import { ValidateDuplicateType } from "@/model/api/user.type";
 import { UserForm } from "@/model/form/userform";
-import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -32,17 +32,9 @@ function CreateUser() {
       console.error("Error:", err);
       setRes("Failed to create user");
     } finally {
+      console.log("res", res);
       router.push("/");
     }
-  };
-
-  // Function to get today's date in YYYY-MM-DD format
-  const getTodayDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -59,7 +51,7 @@ function CreateUser() {
       }}
     >
       <Typography variant="h5" gutterBottom>
-        User Form
+        User Create Form
       </Typography>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6 }}>
@@ -137,6 +129,7 @@ function CreateUser() {
 
                   return true;
                 } catch (error) {
+                  console.log("error", error);
                   return "Error validating Id card";
                 }
               },
@@ -262,6 +255,7 @@ function CreateUser() {
 
                   return true;
                 } catch (error) {
+                  console.log("error", error);
                   return "Error validating email";
                 }
               },
@@ -308,9 +302,10 @@ function CreateUser() {
 
                   return true;
                 } catch (error) {
+                  console.log("error", error);
                   return "Error validating phone number";
                 }
-              }
+              },
             })}
             error={!!errors.phoneNumber}
             helperText={errors.phoneNumber?.message}

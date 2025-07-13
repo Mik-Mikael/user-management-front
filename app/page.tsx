@@ -9,7 +9,7 @@ import {
   InputAdornment,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/navigation";
@@ -40,7 +40,8 @@ function Home() {
   return (
     <Box
       sx={{
-        display: "grid",
+        // justifyContent: "space-between",
+        // display: "flex",
         width: "100%",
         height: "100vh",
         backgroundColor: "#F8F8F8",
@@ -48,14 +49,15 @@ function Home() {
       }}
     >
       <Stack
-        display="flex"
-        justifyContent="flex-end"
+        // display="flex"
+        justifyContent="space-between"
         direction="row"
         width="100%"
         height="60px"
         spacing={1}
-        sx={{ pb: 2 }}
+        sx={{ pb: 2, my: 2 }}
       >
+        <Typography variant="h4">User Management</Typography>
         {/* <Box sx={{ flex: 1 }} /> */}
         <Button
           variant="contained"
@@ -99,45 +101,6 @@ function Home() {
         </Stack>
         <StickyHeadTable dataTable={searchRes} />
       </Card>
-
-      {/* {!!searchRes && searchRes.map((item, index) => (<Card key={index} sx={{justifyContent: 'center', alignItems: 'center', padding: '32px' }}>
-        <Stack direction='row'>
-          <Typography>Name: </Typography>
-          <Typography>{`${item.firstName} ${item.lastName}`}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>ID Card: </Typography>
-          <Typography>{item.idCard}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>Date of birth: </Typography>
-          <Typography>{item.dateOfBirth}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>email: </Typography>
-          <Typography>{item.email}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>Phone number: </Typography>
-          <Typography>{item.phoneNumber}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>Position: </Typography>
-          <Typography>{item.position}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>Role: </Typography>
-          <Typography>{item.role}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>Start Date: </Typography>
-          <Typography>{item.startDate}</Typography>
-        </Stack>
-        <Stack direction='row'>
-          <Typography>End Date: </Typography>
-          <Typography>{item.endDate}</Typography>
-        </Stack>
-    </Card>))} */}
     </Box>
   );
 }
