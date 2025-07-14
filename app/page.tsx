@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 
-function Home() {
+function UserManagementListPage() {
   const router = useRouter();
   const [search, setSearch] = useState<string>("");
   const [searchRes, setSearchRes] = useState<UserDto[]>();
@@ -105,4 +105,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default UserManagementListPage;

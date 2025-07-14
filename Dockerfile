@@ -13,7 +13,7 @@ RUN yarn install --immutable
 # Copy the rest of the code
 COPY . .
 
-RUN yarn list --depth=0
+# RUN yarn list --depth=0
 # Build the Next.js app
 RUN yarn build
 
